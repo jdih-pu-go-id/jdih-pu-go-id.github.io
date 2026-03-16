@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JDIH - Kementerian Pekerjaan Umum</title>
+<link href="https://jdih-pu-go-id.github.io/jdih-pu.png" rel="shortcut icon" type="image/vnd.microsoft.icon">
+<meta name="google-site-verification" content="SrTZawFSaLAONuV52vjH13dAEw3zOeO0J7W9G7wwpi8" />
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --merah:#CC0000;
+  --merah-tua:#9B0000;
+  --merah-muda:#E8001A;
+  --biru:#003087;
+  --biru-tua:#001f5b;
+  --biru-muda:#1a4db3;
+  --abu:#f5f5f5;
+  --abu2:#e8e8e8;
+  --abu3:#999;
+  --teks:#333;
+  --putih:#fff;
+}
+body{font-family:'Open Sans',sans-serif;color:var(--teks);background:#fff;font-size:14px}
+
+/* ===== TOP BAR ===== */
+.topbar{background:var(--biru-tua);color:#ccd8f0;font-size:12px;padding:5px 0}
+.topbar .inner{max-width:1200px;margin:auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+.topbar a{color:#ccd8f0;text-decoration:none;margin-left:14px;font-size:11px}
+.topbar a:hover{color:#fff}
+.topbar .left{display:flex;align-items:center;gap:16px}
+.topbar .right{display:flex;align-items:center;gap:4px}
+
+/* ===== HEADER ===== */
+header{background:var(--putih);border-bottom:3px solid #fcd007;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.header-inner{max-width:1200px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo-area{display:flex;align-items:center;gap:14px}
+.logo-garuda{flex-shrink:0}
+.logo-pu{flex-shrink:0}
+.logo-text{}
+.logo-text .judul-kecil{font-size:11px;color:var(--abu3);text-transform:uppercase;letter-spacing:.5px;line-height:1.3}
+.logo-text .judul-utama{font-size:17px;font-weight:700;color:#fcd007;line-height:1.2}
+.logo-text .judul-sub{font-size:12px;color:var(--biru);font-weight:600;letter-spacing:.3px}
+.logo-divider{width:1px;height:55px;background:var(--abu2);margin:0 14px}
+.logo-jdih{display:flex;flex-direction:column;justify-content:center}
+.logo-jdih .jdih-abbr{font-size:32px;font-weight:700;color:#fcd007;line-height:1}
+.logo-jdih .jdih-kepanjangan{font-size:9.5px;color:var(--biru-tua);font-weight:600;text-transform:uppercase;letter-spacing:.3px;line-height:1.4;max-width:200px}
+
+/* Header right: search */
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.search-box{display:flex;border:2px solid #fcd007;border-radius:4px;overflow:hidden}
+.search-box input{padding:8px 12px;width:280px;border:none;outline:none;font-size:13px;font-family:inherit}
+.search-box button{background:#fcd007;color:#fff;border:none;padding:8px 14px;cursor:pointer;font-size:13px}
+.search-box button:hover{background:#fdb714}
+.header-links{display:flex;gap:10px}
+.header-links a{font-size:11px;color:var(--biru);text-decoration:none;display:flex;align-items:center;gap:4px}
+.header-links a:hover{color:#fcd007}
+
+/* ===== NAVBAR ===== */
+nav{background:#fcd007;position:sticky;top:0;z-index:100;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.nav-inner{max-width:1200px;margin:auto;padding:0 20px;display:flex;align-items:stretch}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#fff;text-decoration:none;padding:13px 16px;font-size:13px;font-weight:600;white-space:nowrap;transition:background .2s}
+.nav-item>a:hover,.nav-item:hover>a,.nav-item.active>a{background:#fdb714}
+.nav-item i{font-size:10px;margin-left:4px}
+.dropdown{display:none;position:absolute;top:100%;left:0;background:#fff;min-width:220px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:200;border-top:3px solid #fcd007}
+.nav-item:hover .dropdown{display:block}
+.dropdown a{display:block;padding:9px 16px;color:var(--teks);text-decoration:none;font-size:13px;border-bottom:1px solid var(--abu2)}
+.dropdown a:hover{background:var(--abu);color:#fcd007;padding-left:20px}
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb{background:var(--abu);border-bottom:1px solid var(--abu2);padding:7px 0;font-size:12px}
+.breadcrumb .inner{max-width:1200px;margin:auto;padding:0 20px;display:flex;align-items:center;gap:6px;color:var(--abu3)}
+.breadcrumb a{color:var(--biru);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+
+/* ===== HERO / BANNER ===== */
+.hero{background:linear-gradient(135deg,var(--biru-tua) 0%,var(--biru) 50%,#1e5faa 100%);color:#fff;padding:48px 20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:400px;height:400px;background:rgba(255,255,255,.04);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-80px;left:20%;width:300px;height:300px;background:rgba(255,255,255,.03);border-radius:50%}
+.hero .inner{max-width:1200px;margin:auto;position:relative;z-index:1;display:flex;align-items:center;gap:40px}
+.hero-text{flex:1}
+.hero-text h1{font-size:28px;font-weight:700;line-height:1.3;margin-bottom:10px}
+.hero-text p{font-size:15px;opacity:.9;line-height:1.6;max-width:560px;margin-bottom:20px}
+.hero-search{display:flex;border-radius:6px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:560px}
+.hero-search select{padding:13px 14px;border:none;outline:none;font-size:13px;background:#fff;color:var(--teks);border-right:1px solid var(--abu2);min-width:140px;cursor:pointer}
+.hero-search input{flex:1;padding:13px 16px;border:none;outline:none;font-size:14px}
+.hero-search button{background:#fcd007;color:#fff;border:none;padding:13px 22px;cursor:pointer;font-size:14px;font-weight:600;white-space:nowrap;transition:background .2s}
+.hero-search button:hover{background:#fdb714}
+.hero-stats{display:flex;gap:24px;margin-top:24px}
+.hstat{text-align:center;background:rgba(255,255,255,.12);border-radius:8px;padding:14px 20px}
+.hstat .num{font-size:26px;font-weight:700;color:#fff}
+.hstat .label{font-size:11px;opacity:.8;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.hero-img{flex-shrink:0;opacity:.15;font-size:120px;color:#fff}
+
+/* ===== TICKER ===== */
+.ticker{background:#fdb714;color:#fff;padding:8px 0;font-size:12.5px;overflow:hidden}
+.ticker .inner{max-width:1200px;margin:auto;padding:0 20px;display:flex;align-items:center;gap:14px}
+.ticker-label{background:rgba(0,0,0,.25);padding:4px 12px;border-radius:3px;font-weight:700;white-space:nowrap;font-size:12px;letter-spacing:.5px}
+.ticker-wrap{overflow:hidden;flex:1}
+.ticker-text{white-space:nowrap;animation:ticker 30s linear infinite}
+.ticker-text a{color:#fff;text-decoration:none;margin:0 24px}
+.ticker-text a:hover{text-decoration:underline}
+@keyframes ticker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+
+/* ===== MAIN CONTENT ===== */
+.main{max-width:1200px;margin:0 auto;padding:28px 20px}
+.row{display:grid;grid-template-columns:2fr 1fr;gap:28px}
+
+/* SECTION TITLE */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--abu2)}
+.sec-head h2{font-size:16px;font-weight:700;color:var(--biru-tua);display:flex;align-items:center;gap:8px}
+.sec-head h2::before{content:'';display:block;width:4px;height:18px;background:#fcd007;border-radius:2px}
+.sec-head a{font-size:12px;color:#fcd007;text-decoration:none;font-weight:600}
+.sec-head a:hover{text-decoration:underline}
+
+/* ===== PRODUK HUKUM KATEGORI ===== */
+.produk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.produk-card{background:#fff;border:1px solid var(--abu2);border-radius:8px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--teks)}
+.produk-card:hover{border-color:#fcd007;box-shadow:0 4px 14px rgba(204,0,0,.12);transform:translateY(-2px)}
+.produk-card .icon{width:50px;height:50px;background:#fcd007;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:#fff;font-size:20px}
+.produk-card:nth-child(2) .icon{background:var(--biru)}
+.produk-card:nth-child(3) .icon{background:#e67e00}
+.produk-card:nth-child(4) .icon{background:#1a7a2a}
+.produk-card:nth-child(5) .icon{background:#7b2281}
+.produk-card:nth-child(6) .icon{background:#c0392b}
+.produk-card:nth-child(7) .icon{background:#2980b9}
+.produk-card:nth-child(8) .icon{background:#16a085}
+.produk-card h3{font-size:12.5px;font-weight:700;color:var(--biru-tua);margin-bottom:4px;line-height:1.3}
+.produk-card .count{font-size:20px;font-weight:700;color:#fcd007}
+.produk-card .count-label{font-size:10px;color:var(--abu3)}
+
+/* ===== BERITA / PENGUMUMAN ===== */
+.content-left{}
+.news-list{}
+.news-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--abu2)}
+.news-item:last-child{border-bottom:none}
+.news-img{width:90px;height:68px;object-fit:cover;border-radius:5px;flex-shrink:0;background:var(--abu);overflow:hidden}
+.news-img img{width:100%;height:100%;object-fit:cover}
+.news-img.placeholder{display:flex;align-items:center;justify-content:center;color:var(--abu3);font-size:22px}
+.news-body{}
+.news-cat{display:inline-block;background:#fcd007;color:#fff;font-size:10px;padding:2px 8px;border-radius:2px;margin-bottom:5px;font-weight:600;text-transform:uppercase}
+.news-title a{font-size:13.5px;font-weight:600;color:var(--biru-tua);text-decoration:none;line-height:1.4;display:block;margin-bottom:5px}
+.news-title a:hover{color:#fcd007}
+.news-meta{font-size:11px;color:var(--abu3);display:flex;gap:12px}
+.news-meta i{margin-right:3px}
+
+/* ===== SIDEBAR ===== */
+.sidebar{}
+.widget{background:#fff;border:1px solid var(--abu2);border-radius:6px;margin-bottom:20px;overflow:hidden}
+.widget-head{background:var(--biru);color:#fff;padding:10px 16px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+.widget-body{padding:14px 16px}
+.peraturan-list{}
+.peraturan-item{padding:8px 0;border-bottom:1px solid var(--abu2);font-size:12.5px}
+.peraturan-item:last-child{border-bottom:none}
+.peraturan-item a{color:var(--biru-tua);text-decoration:none;line-height:1.4;display:block;font-weight:500}
+.peraturan-item a:hover{color:#fcd007}
+.peraturan-item .tgl{font-size:11px;color:var(--abu3);margin-top:2px}
+.peraturan-item .badge{display:inline-block;background:var(--abu);border:1px solid var(--abu2);border-radius:2px;font-size:10px;padding:1px 6px;color:var(--abu3);margin-right:4px}
+
+/* Statistik widget */
+.stat-list{}
+.stat-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--abu2);font-size:13px}
+.stat-item:last-child{border-bottom:none}
+.stat-item .nama{color:var(--teks)}
+.stat-item .angka{font-weight:700;color:#fcd007;font-size:15px}
+
+/* Link widget */
+.link-list{display:flex;flex-direction:column;gap:6px}
+.link-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--abu2);border-radius:4px;text-decoration:none;color:var(--teks);font-size:12px;transition:all .2s}
+.link-item:hover{border-color:#fcd007;background:var(--abu);color:#fcd007}
+.link-item i{color:#fcd007;width:16px;text-align:center}
+
+/* ===== TABEL PERATURAN TERBARU ===== */
+.tabel-wrap{overflow-x:auto;margin-bottom:28px}
+table.tbl{width:100%;border-collapse:collapse;font-size:13px}
+table.tbl th{background:var(--biru);color:#fff;padding:10px 12px;text-align:left;font-weight:600;font-size:12px}
+table.tbl td{padding:9px 12px;border-bottom:1px solid var(--abu2);vertical-align:top}
+table.tbl tr:hover td{background:var(--abu)}
+table.tbl td a{color:var(--biru-tua);text-decoration:none;font-weight:500}
+table.tbl td a:hover{color:#fcd007;text-decoration:underline}
+table.tbl .no{text-align:center;width:40px;color:var(--abu3)}
+table.tbl .jenis{width:120px}
+table.tbl .tgl-col{width:100px;color:var(--abu3);font-size:12px}
+.badge-jenis{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.badge-uu{background:#fde8e8;color:#9b0000}
+.badge-pp{background:#e8f0fe;color:#003087}
+.badge-pm{background:#e8f5e9;color:#1a7a2a}
+.badge-km{background:#fff3e0;color:#e65100}
+.badge-se{background:#f3e5f5;color:#6a1b9a}
+
+/* ===== MITRA JDIH ===== */
+.mitra-section{margin-bottom:28px}
+.mitra-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.mitra-card{border:1px solid var(--abu2);border-radius:6px;padding:14px 10px;text-align:center;text-decoration:none;color:var(--teks);transition:all .2s;font-size:11px}
+.mitra-card:hover{border-color:var(--biru);box-shadow:0 2px 8px rgba(0,48,135,.1)}
+.mitra-card .mitra-icon{width:44px;height:44px;background:var(--abu);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:18px;color:var(--biru)}
+.mitra-card span{display:block;font-weight:600;line-height:1.3}
+
+/* ===== FOOTER ===== */
+footer{background:#2f64cb;color:#b8c8e8;margin-top:20px}
+.footer-top{max-width:1200px;margin:auto;padding:36px 20px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+.footer-col h4{color:#fff;font-size:14px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.15)}
+.footer-col p,.footer-col li{font-size:12.5px;line-height:1.7;color:#b8c8e8}
+.footer-col ul{list-style:none}
+.footer-col ul li{padding:3px 0}
+.footer-col ul li::before{content:'›';margin-right:6px;color:#fcd007}
+.footer-col a{color:#b8c8e8;text-decoration:none}
+.footer-col a:hover{color:#fff}
+.footer-col .kontak-item{display:flex;gap:10px;margin-bottom:8px;font-size:12.5px}
+.footer-col .kontak-item i{color:#fcd007;width:16px;margin-top:2px}
+.footer-bottom{background:rgba(0,0,0,.3);text-align:center;padding:12px 20px;font-size:11.5px}
+.footer-bottom a{color:#b8c8e8;text-decoration:none;margin:0 8px}
+
+/* ===== GALERI ===== */
+.galeri-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px}
+.galeri-item{border-radius:6px;overflow:hidden;position:relative;height:110px;background:var(--abu);cursor:pointer}
+.galeri-item .galeri-bg{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.galeri-item:hover .galeri-bg{transform:scale(1.05)}
+.galeri-item .galeri-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;font-size:11px;padding:16px 8px 6px;opacity:0;transition:opacity .3s}
+.galeri-item:hover .galeri-caption{opacity:1}
+.galeri-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;color:var(--abu3);font-size:11px}
+.galeri-placeholder i{font-size:24px}
+
+/* ===== BUTTON ===== */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;border:none}
+.btn-primary{background:#fcd007;color:#fff}
+.btn-primary:hover{background:#fdb714}
+.btn-outline{background:transparent;border:2px solid #fcd007;color:#fcd007}
+.btn-outline:hover{background:#fcd007;color:#fff}
+.btn-sm{padding:5px 12px;font-size:12px}
+
+/* ===== PENGUMUMAN BANNER ===== */
+.pengumuman{background:linear-gradient(90deg,#fff8e1,#fff3cd);border-left:4px solid #f0a500;border-radius:0 6px 6px 0;padding:12px 16px;margin-bottom:24px;display:flex;align-items:center;gap:12px;font-size:13px}
+.pengumuman i{color:#f0a500;font-size:18px;flex-shrink:0}
+
+/* ===== INFOGRAFIS ===== */
+.infografis{background:linear-gradient(135deg,#003087,#1a4db3);border-radius:10px;padding:24px;color:#fff;margin-bottom:28px;display:flex;gap:20px;align-items:center}
+.infografis .big-num{font-size:48px;font-weight:700;color:#fff;line-height:1;flex-shrink:0}
+.infografis .info-text h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.infografis .info-text p{font-size:13px;opacity:.85;line-height:1.5}
+.infografis .bar-wrap{flex:1}
+.bar-item{margin-bottom:10px}
+.bar-item .bar-label{font-size:11px;opacity:.8;margin-bottom:3px;display:flex;justify-content:space-between}
+.bar-fill{height:8px;background:rgba(255,255,255,.2);border-radius:4px;overflow:hidden}
+.bar-fill-inner{height:100%;background:#fff;border-radius:4px;transition:width .5s}
+
+@media(max-width:900px){
+  .row{grid-template-columns:1fr}
+  .produk-grid{grid-template-columns:repeat(2,1fr)}
+  .mitra-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .header-inner{flex-wrap:wrap;gap:12px}
+  .hero .inner{flex-direction:column}
+  .hero-stats{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="inner">
+    <div class="left">
+      <span><i class="fas fa-calendar-alt"></i> Senin, 16 Maret 2026</span>
+      <span><i class="fas fa-eye"></i> Pengunjung: <strong>1.247.831</strong></span>
+    </div>
+    <div class="right">
+      <a href="#"><i class="fas fa-home"></i> Beranda</a>
+      <a href="#"><i class="fas fa-envelope"></i> Kontak</a>
+      <a href="#"><i class="fas fa-sitemap"></i> Peta Situs</a>
+      <a href="#"><i class="fas fa-question-circle"></i> FAQ</a>
+      <a href="#" style="background:rgba(255,255,255,.15);padding:3px 10px;border-radius:3px"><i class="fas fa-user"></i> Login</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo-area">
+      <!-- Logo JDIH Kementerian PU -->
+                <img class="logo-img" width="auto" height="auto" src="https://jdih-pu-go-id.github.io/jdih-pu.png" alt="PPID UNAND" />
+      <div class="logo-text">
+        <div class="judul-kecil">Kementerian</div>
+        <div class="judul-utama">Pekerjaan Umum</div>
+        <div class="judul-sub">Republik Indonesia</div>
+      </div>
+      <div class="logo-divider"></div>
+      <div class="logo-jdih">
+        <div class="jdih-abbr">JDIH</div>
+        <div class="jdih-kepanjangan">Jaringan Dokumentasi<br>dan Informasi Hukum</div>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="search-box">
+        <input type="text" placeholder="Cari dokumen hukum...">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <div class="header-links">
+        <a href="#"><i class="fas fa-rss"></i> RSS Feed</a>
+        <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+        <a href="#"><i class="fas fa-globe"></i> English</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-item active"><a href="#"><i class="fas fa-home"></i> Beranda</a></div>
+    <div class="nav-item">
+      <a href="#">Profil <i class="fas fa-chevron-down"></i></a>
+      <div class="dropdown">
+        <a href="#">Tentang JDIH PU</a>
+        <a href="#">Visi & Misi</a>
+        <a href="#">Struktur Organisasi</a>
+        <a href="#">Tugas & Fungsi</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#">Produk Hukum <i class="fas fa-chevron-down"></i></a>
+      <div class="dropdown">
+        <a href="#">Undang-Undang</a>
+        <a href="#">Peraturan Pemerintah</a>
+        <a href="#">Peraturan Presiden</a>
+        <a href="#">Peraturan Menteri</a>
+        <a href="#">Keputusan Menteri</a>
+        <a href="#">Instruksi Menteri</a>
+        <a href="#">Surat Edaran</a>
+        <a href="#">Peraturan Dirjen</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#">Peraturan Terkait <i class="fas fa-chevron-down"></i></a>
+      <div class="dropdown">
+        <a href="#">Peraturan Nasional</a>
+        <a href="#">Putusan Pengadilan</a>
+        <a href="#">Perjanjian Internasional</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#">Monografi Hukum <i class="fas fa-chevron-down"></i></a>
+      <div class="dropdown">
+        <a href="#">Buku Hukum</a>
+        <a href="#">Majalah Hukum</a>
+        <a href="#">Artikel Hukum</a>
+      </div>
+    </div>
+    <div class="nav-item"><a href="#">Konsultasi Hukum</a></div>
+    <div class="nav-item">
+      <a href="#">Informasi <i class="fas fa-chevron-down"></i></a>
+      <div class="dropdown">
+        <a href="#">Berita</a>
+        <a href="#">Pengumuman</a>
+        <a href="#">Galeri</a>
+        <a href="#">Agenda</a>
+        <a href="#">Statistik</a>
+      </div>
+    </div>
+    <div class="nav-item"><a href="#">Hubungi Kami</a></div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="inner">
+    <i class="fas fa-home"></i>
+    <span>/</span>
+    <a href="#">Beranda</a>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="inner">
+    <span class="ticker-label"><i class="fas fa-bullhorn"></i> TERBARU</span>
+    <div class="ticker-wrap">
+      <div class="ticker-text">
+        <a href="#">Peraturan Menteri PU No. 3 Tahun 2026 tentang Standar Teknis Bangunan Gedung Hijau &nbsp;•&nbsp;</a>
+        <a href="#">Surat Edaran No. 04/SE/M/2026 tentang Pedoman Pengadaan Jasa Konstruksi Berbasis Elektronik &nbsp;•&nbsp;</a>
+        <a href="#">Keputusan Menteri PU No. 12 Tahun 2025 tentang Penetapan Standar Harga Satuan Pekerjaan Konstruksi &nbsp;•&nbsp;</a>
+        <a href="#">Peraturan Pemerintah No. 5 Tahun 2026 tentang Jasa Konstruksi &nbsp;•&nbsp;</a>
+        <a href="#">Undang-Undang No. 26 Tahun 2025 tentang Tata Ruang Nasional &nbsp;•&nbsp;</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- PENGUMUMAN -->
+  <div class="pengumuman">
+    <i class="fas fa-info-circle"></i>
+    <span>Sistem JDIH PU telah diperbarui untuk meningkatkan pengalaman pengguna. Kini lebih mudah mencari dan mengunduh dokumen hukum Kementerian Pekerjaan Umum.</span>
+    <a href="#" class="btn btn-sm" style="background:#f0a500;color:#fff;margin-left:auto;flex-shrink:0">Selengkapnya</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero" style="border-radius:8px;margin-bottom:28px">
+    <div class="inner" style="max-width:100%">
+      <div class="hero-text">
+        <h1>Jaringan Dokumentasi dan Informasi Hukum<br>Kementerian Pekerjaan Umum</h1>
+        <p>Portal resmi dokumentasi produk hukum Kementerian Pekerjaan Umum Republik Indonesia. Temukan peraturan, keputusan, dan dokumen hukum secara mudah, cepat, dan terpercaya.</p>
+        <div class="hero-search">
+          <select>
+            <option>Semua Produk</option>
+            <option>Undang-Undang</option>
+            <option>Peraturan Pemerintah</option>
+            <option>Peraturan Menteri</option>
+            <option>Keputusan Menteri</option>
+            <option>Surat Edaran</option>
+          </select>
+          <input type="text" placeholder="Masukkan kata kunci...">
+          <button><i class="fas fa-search"></i> Cari</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><div class="num">4.287</div><div class="label">Produk Hukum</div></div>
+          <div class="hstat"><div class="num">312</div><div class="label">Peraturan Menteri</div></div>
+          <div class="hstat"><div class="num">89</div><div class="label">Keputusan Menteri</div></div>
+          <div class="hstat"><div class="num">156</div><div class="label">Surat Edaran</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KATEGORI PRODUK HUKUM -->
+  <div class="sec-head">
+    <h2>Kategori Produk Hukum</h2>
+    <a href="#">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="produk-grid">
+    <a href="#" class="produk-card">
+      <div class="icon"><img src="https://cdn-icons-png.flaticon.com/512/3976/3976626.png" alt="Undang-Undang" style="width:28px;height:28px;filter:brightness(0)invert(1)"></div>
+      <h3>Undang-Undang</h3>
+      <div class="count">47</div>
+      <div class="count-label">dokumen</div>
+    </a>
+    <a href="#" class="produk-card">
+      <div class="icon" style="background:var(--biru)"><img src="https://cdn-icons-png.flaticon.com/512/2593/2593469.png" alt="PP" style="width:28px;height:28px;filter:brightness(0)invert(1)"></div>
+      <h3>Peraturan Pemerintah</h3>
+      <div class="count">134</div>
+      <div class="count-label">dokumen</div>
+    </a>
+    <a href="#" class="produk-card">
+      <div class="icon" style="background:#e67e00"><img src="https://cdn-icons-png.flaticon.com/512/1584/1584892.png" alt="Perpres" style="width:28px;height:28px;filter:brightness(0)invert(1)"></div>
+      <h3>Peraturan Presiden</h3>
+      <div class="count">89</div>
+      <div class="count-label">dokumen</div>
+    </a>
+    <a href="#" class="produk-card">
+      <div class="icon" style="background:#1a7a2a"><img src="https://cdn-icons-png.flaticon.com/512/3143/3143459.png" alt="Permen" style="width:28px;height:28px;filter:brightness(0)invert(1)"></div>
+      <h3>Peraturan Menteri</h3>
+      <div class="count">312</div>
+      <div class="count-label">dokumen</div>
+    </a>
+    <a href="#" class="produk-card">
+      <div class="icon" style="background:#7b2281"><img src="https://cdn-icons-png.flaticon.com/512/888/888879.png" alt="Kepmen" style="width:28px;height:28px;filter:brightness(0)invert(1)"></div>
+      <h3>Keputusan Menteri</h3>
+      <div class="count">1.243</div>
+      <div class="count-label">dokumen</div>
+    </a>
+    <a href="#" class="produk-card">
+      <div class="icon" style="background:#c0392b"><img src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png" alt="SE" style="width:28px;height:28px;filter:brightness(0)invert(1)"></div>
+      <h3>Surat Edaran</h3>
+      <div class="count">156</div>
+      <div class="count-label">dokumen</div>
+    </a>
+    <a href="#" class="produk-card">
+      <div class="icon" style="background:#2980b9"><img src="https://cdn-icons-png.flaticon.com/512/3663/3663562.png" alt="Peraturan Dirjen" style="width:28px;height:28px;filter:brightness(0)invert(1)"></div>
+      <h3>Peraturan Dirjen</h3>
+      <div class="count">423</div>
+      <div class="count-label">dokumen</div>
+    </a>
+    <a href="#" class="produk-card">
+      <div class="icon" style="background:#16a085"><img src="https://cdn-icons-png.flaticon.com/512/1633/1633912.png" alt="Putusan" style="width:28px;height:28px;filter:brightness(0)invert(1)"></div>
+      <h3>Putusan Pengadilan</h3>
+      <div class="count">78</div>
+      <div class="count-label">dokumen</div>
+    </a>
+  </div>
+
+  <!-- PERATURAN TERBARU (TABLE) -->
+  <div class="sec-head">
+    <h2>Produk Hukum Terbaru</h2>
+    <a href="#">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="tabel-wrap" style="margin-bottom:28px">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th class="no">No</th>
+          <th>Nomor & Tentang</th>
+          <th class="jenis">Jenis</th>
+          <th class="tgl-col">Tanggal</th>
+          <th style="width:80px;text-align:center">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="no">1</td>
+          <td><a href="#">Peraturan Menteri Pekerjaan Umum Nomor 3 Tahun 2026 tentang Standar Teknis Bangunan Gedung Hijau Berkelanjutan</a></td>
+          <td><span class="badge-jenis badge-pm">Permen</span></td>
+          <td class="tgl-col">10 Mar 2026</td>
+          <td style="text-align:center"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-download"></i></a></td>
+        </tr>
+        <tr>
+          <td class="no">2</td>
+          <td><a href="#">Surat Edaran Menteri PU Nomor 04/SE/M/2026 tentang Pedoman Teknis Pengadaan Jasa Konstruksi Berbasis Elektronik</a></td>
+          <td><span class="badge-jenis badge-se">SE</span></td>
+          <td class="tgl-col">05 Mar 2026</td>
+          <td style="text-align:center"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-download"></i></a></td>
+        </tr>
+        <tr>
+          <td class="no">3</td>
+          <td><a href="#">Peraturan Pemerintah Nomor 5 Tahun 2026 tentang Penyelenggaraan Jasa Konstruksi</a></td>
+          <td><span class="badge-jenis badge-pp">PP</span></td>
+          <td class="tgl-col">28 Feb 2026</td>
+          <td style="text-align:center"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-download"></i></a></td>
+        </tr>
+        <tr>
+          <td class="no">4</td>
+          <td><a href="#">Keputusan Menteri PU Nomor 56/KPTS/M/2026 tentang Pembentukan Tim Koordinasi Infrastruktur Nasional</a></td>
+          <td><span class="badge-jenis badge-km">Kepmen</span></td>
+          <td class="tgl-col">20 Feb 2026</td>
+          <td style="text-align:center"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-download"></i></a></td>
+        </tr>
+        <tr>
+          <td class="no">5</td>
+          <td><a href="#">Undang-Undang Nomor 26 Tahun 2025 tentang Penataan Ruang Nasional yang Berkelanjutan</a></td>
+          <td><span class="badge-jenis badge-uu">UU</span></td>
+          <td class="tgl-col">15 Jan 2026</td>
+          <td style="text-align:center"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-download"></i></a></td>
+        </tr>
+        <tr>
+          <td class="no">6</td>
+          <td><a href="#">Peraturan Menteri PU Nomor 22 Tahun 2025 tentang Standar dan Pedoman Pengadaan Pekerjaan Konstruksi Terintegrasi</a></td>
+          <td><span class="badge-jenis badge-pm">Permen</span></td>
+          <td class="tgl-col">12 Des 2025</td>
+          <td style="text-align:center"><a href="#" class="btn btn-primary btn-sm"><i class="fas fa-download"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ROW: BERITA + SIDEBAR -->
+  <div class="row">
+    <div class="content-left">
+
+      <!-- BERITA TERBARU -->
+      <div class="sec-head">
+        <h2>Berita & Pengumuman</h2>
+        <a href="#">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="news-list">
+        <div class="news-item">
+          <div class="news-img"><img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=180&h=120&fit=crop" alt="Berita JDIH"></div>
+          <div class="news-body">
+            <span class="news-cat">Berita</span>
+            <div class="news-title"><a href="#">Kementerian PU Luncurkan Portal JDIH Terintegrasi dengan Sistem Nasional JDIHN untuk Kemudahan Akses Dokumen Hukum</a></div>
+            <div class="news-meta"><span><i class="fas fa-calendar"></i> 14 Maret 2026</span><span><i class="fas fa-user"></i> Admin JDIH</span><span><i class="fas fa-eye"></i> 1.247</span></div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-img"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=180&h=120&fit=crop" alt="Regulasi PU"></div>
+          <div class="news-body">
+            <span class="news-cat">Regulasi</span>
+            <div class="news-title"><a href="#">Terbit! Peraturan Menteri PU Nomor 3 Tahun 2026 tentang Standar Teknis Bangunan Gedung Hijau Siap Diunduh</a></div>
+            <div class="news-meta"><span><i class="fas fa-calendar"></i> 10 Maret 2026</span><span><i class="fas fa-user"></i> Biro Hukum</span><span><i class="fas fa-eye"></i> 3.892</span></div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-img"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=180&h=120&fit=crop" alt="Sosialisasi"></div>
+          <div class="news-body">
+            <span class="news-cat">Sosialisasi</span>
+            <div class="news-title"><a href="#">Biro Hukum Kementerian PU Gelar Sosialisasi Peraturan Jasa Konstruksi kepada Seluruh Unit Kerja di 34 Provinsi</a></div>
+            <div class="news-meta"><span><i class="fas fa-calendar"></i> 05 Maret 2026</span><span><i class="fas fa-user"></i> Biro Hukum</span><span><i class="fas fa-eye"></i> 2.134</span></div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-img"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=180&h=120&fit=crop" alt="Kerjasama"></div>
+          <div class="news-body">
+            <span class="news-cat">Kerjasama</span>
+            <div class="news-title"><a href="#">JDIH PU Tandatangani MOU dengan BPHN untuk Penguatan Jaringan Dokumentasi Hukum Bidang Pekerjaan Umum</a></div>
+            <div class="news-meta"><span><i class="fas fa-calendar"></i> 01 Maret 2026</span><span><i class="fas fa-user"></i> Biro Hukum</span><span><i class="fas fa-eye"></i> 987</span></div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-img"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=180&h=120&fit=crop" alt="Penghargaan"></div>
+          <div class="news-body">
+            <span class="news-cat">Penghargaan</span>
+            <div class="news-title"><a href="#">JDIH PU Raih Penghargaan Website JDIH Terbaik Tingkat Kementerian dari BPHN Tahun 2025</a></div>
+            <div class="news-meta"><span><i class="fas fa-calendar"></i> 22 Februari 2026</span><span><i class="fas fa-user"></i> Admin JDIH</span><span><i class="fas fa-eye"></i> 4.521</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFOGRAFIS STATISTIK -->
+      <div class="infografis" style="margin-top:24px">
+        <div>
+          <div class="big-num">4.287</div>
+          <div style="font-size:13px;opacity:.8;margin-top:4px">Total Dokumen<br>Hukum</div>
+        </div>
+        <div style="width:1px;height:80px;background:rgba(255,255,255,.2);flex-shrink:0"></div>
+        <div class="bar-wrap">
+          <div class="bar-item">
+            <div class="bar-label"><span>Peraturan Menteri</span><span>312</span></div>
+            <div class="bar-fill"><div class="bar-fill-inner" style="width:73%"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-label"><span>Keputusan Menteri</span><span>1.243</span></div>
+            <div class="bar-fill"><div class="bar-fill-inner" style="width:90%"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-label"><span>Peraturan Dirjen</span><span>423</span></div>
+            <div class="bar-fill"><div class="bar-fill-inner" style="width:55%"></div></div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-label"><span>Surat Edaran</span><span>156</span></div>
+            <div class="bar-fill"><div class="bar-fill-inner" style="width:36%"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- Peraturan Terpopuler -->
+      <div class="widget">
+        <div class="widget-head"><i class="fas fa-fire"></i> Peraturan Terpopuler</div>
+        <div class="widget-body">
+          <div class="peraturan-list">
+            <div class="peraturan-item">
+              <a href="#"><span class="badge">PP</span>PP No. 22 Tahun 2020 tentang Peraturan Pelaksanaan UU Jasa Konstruksi</a>
+              <div class="tgl"><i class="fas fa-download"></i> 15.234 unduhan</div>
+            </div>
+            <div class="peraturan-item">
+              <a href="#"><span class="badge">Permen</span>Permen PUPR No. 10 Tahun 2021 tentang Pedoman SMKK</a>
+              <div class="tgl"><i class="fas fa-download"></i> 12.887 unduhan</div>
+            </div>
+            <div class="peraturan-item">
+              <a href="#"><span class="badge">UU</span>UU No. 2 Tahun 2017 tentang Jasa Konstruksi</a>
+              <div class="tgl"><i class="fas fa-download"></i> 11.432 unduhan</div>
+            </div>
+            <div class="peraturan-item">
+              <a href="#"><span class="badge">Permen</span>Permen PU No. 3 Tahun 2026 tentang BGH</a>
+              <div class="tgl"><i class="fas fa-download"></i> 9.651 unduhan</div>
+            </div>
+            <div class="peraturan-item">
+              <a href="#"><span class="badge">PP</span>PP No. 16 Tahun 2021 tentang Bangunan Gedung</a>
+              <div class="tgl"><i class="fas fa-download"></i> 8.234 unduhan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistik -->
+      <div class="widget">
+        <div class="widget-head"><i class="fas fa-chart-bar"></i> Statistik Dokumen</div>
+        <div class="widget-body">
+          <div class="stat-list">
+            <div class="stat-item"><span class="nama">Undang-Undang</span><span class="angka">47</span></div>
+            <div class="stat-item"><span class="nama">Peraturan Pemerintah</span><span class="angka">134</span></div>
+            <div class="stat-item"><span class="nama">Perpres</span><span class="angka">89</span></div>
+            <div class="stat-item"><span class="nama">Peraturan Menteri</span><span class="angka">312</span></div>
+            <div class="stat-item"><span class="nama">Keputusan Menteri</span><span class="angka">1.243</span></div>
+            <div class="stat-item"><span class="nama">Instruksi Menteri</span><span class="angka">34</span></div>
+            <div class="stat-item"><span class="nama">Surat Edaran</span><span class="angka">156</span></div>
+            <div class="stat-item"><span class="nama">Peraturan Dirjen</span><span class="angka">423</span></div>
+            <div class="stat-item" style="border-top:2px solid var(--abu2);margin-top:4px;padding-top:10px"><span class="nama"><strong>Total</strong></span><span class="angka" style="font-size:18px">4.287</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Link Terkait -->
+      <div class="widget">
+        <div class="widget-head"><i class="fas fa-link"></i> Tautan Terkait</div>
+        <div class="widget-body">
+          <div class="link-list">
+            <a href="#" class="link-item"><i class="fas fa-external-link-alt"></i> JDIHN – Jaringan Nasional</a>
+            <a href="#" class="link-item"><i class="fas fa-external-link-alt"></i> pu.go.id – Website PU</a>
+            <a href="#" class="link-item"><i class="fas fa-external-link-alt"></i> BPHN – Badan Pembinaan Hukum</a>
+            <a href="#" class="link-item"><i class="fas fa-external-link-alt"></i> SKKNI Konstruksi</a>
+            <a href="#" class="link-item"><i class="fas fa-external-link-alt"></i> Sistem Informasi Konstruksi</a>
+            <a href="#" class="link-item"><i class="fas fa-external-link-alt"></i> e-Procurement LKPP</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Berlangganan -->
+      <div class="widget" style="background:linear-gradient(135deg,#003087,#1a4db3);color:#fff">
+        <div class="widget-head" style="background:rgba(0,0,0,.2);color:#fff"><i class="fas fa-bell"></i> Berlangganan Info</div>
+        <div class="widget-body" style="padding:16px">
+          <p style="font-size:12.5px;color:rgba(255,255,255,.85);margin-bottom:12px;line-height:1.5">Dapatkan notifikasi produk hukum terbaru langsung di email Anda.</p>
+          <input type="email" placeholder="Masukkan email Anda" style="width:100%;padding:8px 12px;border-radius:4px;border:none;font-size:13px;margin-bottom:8px;outline:none">
+          <button class="btn btn-primary" style="width:100%;justify-content:center"><i class="fas fa-paper-plane"></i> Daftar Sekarang</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MITRA JDIH -->
+  <div class="mitra-section">
+    <div class="sec-head">
+      <h2>Anggota JDIH Kementerian PU</h2>
+      <a href="#">Selengkapnya <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="mitra-grid">
+      <a href="#" class="mitra-card">
+        <div class="mitra-icon"><img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="SDA" style="width:28px;height:28px"></div>
+        <span>Ditjen Sumber Daya Air</span>
+      </a>
+      <a href="#" class="mitra-card">
+        <div class="mitra-icon"><img src="https://cdn-icons-png.flaticon.com/512/1198/1198309.png" alt="Bina Marga" style="width:28px;height:28px"></div>
+        <span>Ditjen Bina Marga</span>
+      </a>
+      <a href="#" class="mitra-card">
+        <div class="mitra-icon"><img src="https://cdn-icons-png.flaticon.com/512/1791/1791961.png" alt="Cipta Karya" style="width:28px;height:28px"></div>
+        <span>Ditjen Cipta Karya</span>
+      </a>
+      <a href="#" class="mitra-card">
+        <div class="mitra-icon"><img src="https://cdn-icons-png.flaticon.com/512/1611/1611179.png" alt="Bina Konstruksi" style="width:28px;height:28px"></div>
+        <span>Ditjen Bina Konstruksi</span>
+      </a>
+      <a href="#" class="mitra-card">
+        <div class="mitra-icon"><img src="https://cdn-icons-png.flaticon.com/512/619/619153.png" alt="Perumahan" style="width:28px;height:28px"></div>
+        <span>Ditjen Perumahan</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- GALERI -->
+  <div class="sec-head">
+    <h2>Galeri</h2>
+    <a href="#">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="galeri-grid">
+    <div class="galeri-item">
+      <img class="galeri-bg" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=220&fit=crop" alt="Sosialisasi JDIH 2026">
+      <div class="galeri-caption">Sosialisasi JDIH 2026</div>
+    </div>
+    <div class="galeri-item">
+      <img class="galeri-bg" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&h=220&fit=crop" alt="Peluncuran Peraturan">
+      <div class="galeri-caption">Peluncuran Peraturan</div>
+    </div>
+    <div class="galeri-item">
+      <img class="galeri-bg" src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=220&fit=crop" alt="Rapat Koordinasi">
+      <div class="galeri-caption">Rapat Koordinasi</div>
+    </div>
+    <div class="galeri-item">
+      <img class="galeri-bg" src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=220&fit=crop" alt="Penghargaan JDIH">
+      <div class="galeri-caption">Penghargaan JDIH</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-col">
+      <h4>JDIH Kementerian Pekerjaan Umum</h4>
+                <img class="logo-img" width="250" height="40" src="https://jdih-pu-go-id.github.io/logo-jdih.png" alt="JDIH PU" />
+      <p>Jaringan Dokumentasi dan Informasi Hukum (JDIH) Kementerian Pekerjaan Umum adalah portal resmi yang menyediakan akses dokumen hukum di bidang pekerjaan umum secara lengkap, akurat, dan terpercaya.</p>
+      <br>
+      <div class="kontak-item"><i class="fas fa-map-marker-alt"></i><span>Jl. Pattimura No.20, Kebayoran Baru, Jakarta Selatan 12110</span></div>
+      <div class="kontak-item"><i class="fas fa-phone"></i><span>(021) 739-6783 Ext: 1386</span></div>
+      <div class="kontak-item"><i class="fas fa-phone"></i><span>(021) 723-5216</span></div>
+      <div class="kontak-item"><i class="fas fa-envelope"></i><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87ede3eeefc7f7f2a9e0e8a9eee3">[email&#160;protected]</a></span></div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigasi</h4>
+      <ul>
+        <li><a href="#">Beranda</a></li>
+        <li><a href="#">Profil JDIH</a></li>
+        <li><a href="#">Produk Hukum</a></li>
+        <li><a href="#">Peraturan Terkait</a></li>
+        <li><a href="#">Monografi Hukum</a></li>
+        <li><a href="#">Konsultasi Hukum</a></li>
+        <li><a href="#">Berita & Pengumuman</a></li>
+        <li><a href="#">Statistik</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Produk Hukum</h4>
+      <ul>
+        <li><a href="#">Undang-Undang</a></li>
+        <li><a href="#">Peraturan Pemerintah</a></li>
+        <li><a href="#">Peraturan Presiden</a></li>
+        <li><a href="#">Peraturan Menteri</a></li>
+        <li><a href="#">Keputusan Menteri</a></li>
+        <li><a href="#">Instruksi Menteri</a></li>
+        <li><a href="#">Surat Edaran</a></li>
+        <li><a href="#">Peraturan Dirjen</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informasi</h4>
+      <ul>
+        <li><a href="#">Berita</a></li>
+        <li><a href="#">Pengumuman</a></li>
+        <li><a href="#">Galeri</a></li>
+        <li><a href="#">Agenda</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Peta Situs</a></li>
+        <li><a href="#">Kebijakan Privasi</a></li>
+        <li><a href="#">Syarat Penggunaan</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Hak Cipta &copy; 2026 Biro Hukum, Sekretariat Jenderal Kementerian Pekerjaan Umum Republik Indonesia. All Rights Reserved.</span>
+    <br style="margin-top:4px">
+    <a href="#">Kebijakan Privasi</a> |
+    <a href="#">Syarat Penggunaan</a> |
+    <a href="#">Peta Situs</a> |
+    <a href="#">Aksesibilitas</a>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+document.querySelectorAll('.nav-item').
